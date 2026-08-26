@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apply Online | ARJU ONLINE SERVICES</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container top-bar-inner">
+    <div class="top-left">
+      <span><i class="fas fa-phone"></i> +91 9365225213</span>
+      <span class="hide-mobile"><i class="fas fa-envelope"></i> arjuonlineservices@gmail.com</span>
+    </div>
+    <div class="top-right"><span><i class="fas fa-clock"></i> Mon - Sat: 9:00 AM - 8:00 PM</span></div>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <div class="container nav-container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">A</div>
+      <div class="logo-text"><h1>ARJU ONLINE</h1><p>SERVICES</p></div>
+    </a>
+    <nav class="nav" id="nav">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="apply.html" class="active">Apply Online</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="apply.html" class="btn btn-primary nav-cta hide-mobile">Get Service <i class="fas fa-arrow-right"></i></a>
+    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+
+<section class="page-header">
+  <div class="container">
+    <h1>Apply Online</h1>
+    <p>Fill the form below and we'll contact you within 48 hours</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> <span>Apply Online</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="apply-wrapper">
+      <div class="apply-info">
+        <h2>How It Works</h2>
+        <div class="step"><div class="step-num">1</div><div><h4>Submit Form</h4><p>Fill in your details and select the service you need.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div><h4>We Contact You</h4><p>Our team will call you within 24 hours to confirm details.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><h4>Visit Centre</h4><p>Come to our centre with required documents.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div><h4>Get Service</h4><p>We process your request and deliver the service.</p></div></div>
+
+        <div class="apply-help">
+          <h4><i class="fas fa-headset"></i> Need Help?</h4>
+          <p>Call us directly:</p>
+          <a href="tel:+919365225213" class="btn btn-primary btn-block"><i class="fas fa-phone"></i> +91 9365225213</a>
+          <a href="https://wa.me/919365225213" class="btn btn-whatsapp btn-block"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+        </div>
+      </div>
+
+      <div class="apply-form-wrap">
+        <h2>Application Form</h2>
+        <form class="apply-form" id="applyForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="name" required placeholder="Enter full name" />
+            </div>
+            <div class="form-group">
+              <label>Father's Name</label>
+              <input type="text" name="father" placeholder="Father's name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mobile Number *</label>
+              <input type="tel" name="phone" required placeholder="+91 XXXXX XXXXX" />
+            </div>
+            <div class="form-group">
+              <label>Alt. Mobile</label>
+              <input type="tel" name="altPhone" placeholder="Alternate number" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input type="date" name="dob" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Full Address *</label>
+            <textarea name="address" rows="2" required placeholder="Village, PO, PS, District, PIN"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Select Service *</label>
+            <select name="service" required>
+              <option value="">-- Choose a Service --</option>
+              <optgroup label="Government ID">
+                <option>PAN Card - New</option>
+                <option>PAN Card - Correction</option>
+                <option>Voter ID - New</option>
+                <option>Voter ID - Correction</option>
+                <option>Aadhaar Update</option>
+                <option>Aadhaar PVC Card</option>
+                <option>Passport</option>
+                <option>Driving License</option>
+                <option>Ration Card</option>
+                <option>Birth Certificate</option>
+                <option>Death Certificate</option>
+                <option>Marriage Certificate</option>
+                <option>Income Certificate</option>
+                <option>Caste Certificate</option>
+                <option>Domicile Certificate</option>
+                <option>Ayushman Bharat Card</option>
+              </optgroup>
+              <optgroup label="Banking">
+                <option>Airtel Payments Bank - Account</option>
+                <option>Micro ATM Service</option>
+                <option>Money Transfer</option>
+                <option>Fixed Deposit</option>
+              </optgroup>
+              <optgroup label="Bill Payment">
+                <option>LPG Booking</option>
+                <option>Electricity Bill</option>
+                <option>Water Bill</option>
+                <option>Mobile Recharge</option>
+                <option>DTH Recharge</option>
+                <option>Broadband Bill</option>
+              </optgroup>
+              <optgroup label="Print & Others">
+                <option>Photocopy / Zerox</option>
+                <option>Print & Scan</option>
+                <option>Passport Photo</option>
+                <option>Lamination</option>
+                <option>Online Form Filling</option>
+                <option>ITR Filing</option>
+                <option>GST Registration</option>
+                <option>Other (specify in message)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Additional Message</label>
+            <textarea name="message" rows="3" placeholder="Any specific requirements or questions..."></textarea>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="terms" required />
+            <label for="terms">I agree to the terms and conditions and authorize ARJU ONLINE SERVICES to contact me.</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fas fa-paper-plane"></i> Submit Application
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo"><div class="logo-icon">A</div><div class="logo-text"><h1>ARJU ONLINE</h1><p>SERVICES</p></div></div>
+        <p class="footer-about">Government verified CSC & Airtel Payments Bank head serving Barpeta district.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="apply.html">Apply Online</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Popular Services</h4>
+        <ul>
+          <li><a href="services.html">PAN Card</a></li>
+          <li><a href="services.html">Voter ID</a></li>
+          <li><a href="services.html">Aadhaar Update</a></li>
+          <li><a href="services.html">LPG Booking</a></li>
+          <li><a href="services.html">Bill Payment</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <ul class="contact-list">
+          <li><i class="fas fa-map-marker-alt"></i> Haldia Pather, Ghuigubari, Kalgachia, Barpeta, Assam - 781319</li>
+          <li><i class="fas fa-phone"></i> +91 9365225213</li>
+          <li><i class="fas fa-envelope"></i> arjuonlineservices@gmail.com</li>
+          <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 8:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ARJU ONLINE SERVICES. All Rights Reserved.</p>
+      <p>Made with <i class="fas fa-heart" style="color:#e63946;"></i> in Assam</p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/919365225213" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<script src="script.js"></script>
+</body>
+</html>
