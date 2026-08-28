@@ -361,11 +361,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .about-visual {
   background: var(--gradient);
   border-radius: var(--radius-lg);
-  padding: 80px 40px;
+  padding: 25px 10px;
   text-align: center;
   color: var(--white);
   box-shadow: var(--shadow-xl);
 }
+
 .about-visual i { font-size: 80px; margin-bottom: 20px; opacity: 0.9; }
 .about-visual h3 { font-size: 24px; font-weight: 700; }
 .about-badge {

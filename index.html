@@ -13,8 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<!-- Top Info Bar -->
 <div class="top-bar">
   <div class="container top-bar-inner">
     <div class="top-left">
@@ -26,8 +24,6 @@
     </div>
   </div>
 </div>
-
-<!-- Navigation -->
 <header class="header" id="header">
   <div class="container nav-container">
     <a href="index.html" class="logo">
@@ -52,8 +48,6 @@
     </button>
   </div>
 </header>
-
-<!-- Hero Section -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="container hero-content">
@@ -71,17 +65,20 @@
         <div class="stat"><h3>5+</h3><p>Years Experience</p></div>
       </div>
     </div>
-    <div class="hero-image">
-      <div class="hero-card card-1"><i class="fas fa-id-card"></i><span>PAN Card</span></div>
-      <div class="hero-card card-2"><i class="fas fa-bolt"></i><span>Bill Pay</span></div>
-      <div class="hero-card card-3"><i class="fas fa-university"></i><span>Banking</span></div>
-      <div class="hero-card card-4"><i class="fas fa-fire"></i><span>LPG</span></div>
-      <div class="hero-card card-5"><i class="fas fa-user-check"></i><span>Voter ID</span></div>
-    </div>
+            <div class="hero-image owner-orbit-section">
+                <div class="orbit-ring ring-1"></div>
+                <div class="orbit-ring ring-2"></div>
+                <div class="center-profile">
+                    <img src="images/profile.jpg" alt="Arju Online Services Owner" class="owner-img">
+                </div>
+                <div class="orbit-badge badge-pan"><i class="fas fa-id-card"></i> PAN Card</div>
+                <div class="orbit-badge badge-bill"><i class="fas fa-bolt"></i> Bill Pay</div>
+                <div class="orbit-badge badge-bank"><i class="fas fa-university"></i> Banking</div>
+                <div class="orbit-badge badge-voter"><i class="fas fa-user-check"></i> Voter ID</div>
+                <div class="orbit-badge badge-lpg"><i class="fas fa-fire"></i> LPG</div>
+            </div>
   </div>
 </section>
-
-<!-- Marquee -->
 <div class="marquee">
   <div class="marquee-content">
     <span>✅ PAN Card</span><span>✅ Voter ID</span><span>✅ Aadhaar Update</span><span>✅ LPG Booking</span>
@@ -90,8 +87,6 @@
     <span>✅ PAN Card</span><span>✅ Voter ID</span><span>✅ Aadhaar Update</span><span>✅ LPG Booking</span>
   </div>
 </div>
-
-<!-- Services Preview -->
 <section class="section">
   <div class="container">
     <div class="section-header">
@@ -142,8 +137,6 @@
     </div>
   </div>
 </section>
-
-<!-- Why Choose Us -->
 <section class="section section-alt">
   <div class="container">
     <div class="section-header">
@@ -174,8 +167,6 @@
     </div>
   </div>
 </section>
-
-<!-- CTA -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-content">
@@ -188,8 +179,6 @@
     </div>
   </div>
 </section>
-
-<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -238,16 +227,79 @@
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ARJU ONLINE SERVICES. All Rights Reserved.</p>
-      <p>Made with <i class="fas fa-heart" style="color:#e63946;"></i> in Assam</p>
+      <p>Made by <a href="https://instagram.com/fiozur">@FIOZUR</a></p>
     </div>
   </div>
 </footer>
-
-<!-- WhatsApp Float -->
 <a href="https://wa.me/919365225213" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
   <i class="fab fa-whatsapp"></i>
 </a>
 
 <script src="script.js"></script>
+   <!-- YES THIS SHIT IS HERE CAUSE I DON'T WANT TO FUXK UP MY ENTIRE style.css FOR THIS SHIT !-->   
+  <style>
+        .owner-orbit-section {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .orbit-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed rgba(230, 0, 0, 0.3); /* Airtel Red */
+        }
+        .ring-1 { width: 250px; height: 250px; animation: spin 20s linear infinite; }
+        .ring-2 { width: 340px; height: 340px; border-color: rgba(0, 51, 102, 0.2); /* CSC Blue */ animation: spin 30s linear infinite reverse; }
+        
+        .center-profile {
+            position: relative;
+            z-index: 10;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid #fff;
+            background: #fff;
+        }
+        .owner-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .orbit-badge {
+            position: absolute;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e293b;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .orbit-badge i { font-size: 1rem; }
+        
+        /* Badge Positions & Colors */
+        .badge-pan { top: 5%; left: 10%; animation-delay: 0s; }
+        .badge-pan i { color: #e60000; }
+        .badge-bill { top: 15%; right: 5%; animation-delay: 0.5s; }
+        .badge-bill i { color: #003366; }
+        .badge-bank { bottom: 25%; left: 0%; animation-delay: 1s; }
+        .badge-bank i { color: #e60000; }
+        .badge-voter { bottom: 15%; right: 0%; animation-delay: 1.5s; }
+        .badge-voter i { color: #003366; }
+        .badge-lpg { bottom: 0%; left: 50%; transform: translateX(-50%); animation-delay: 2s; }
+        .badge-lpg i { color: #e60000; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
 </body>
 </html>
