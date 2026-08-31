@@ -58,11 +58,11 @@ style.textContent = `@keyframes fadeIn { from { opacity: 0; transform: translate
 document.head.appendChild(style);
 
 // ============ FORM HANDLING ============
-function handleFormSubmit(formId, successMessage) {
+async function handleFormSubmit(formId, endpoint, defaultSuccessMsg) {
   const form = document.getElementById(formId);
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(form);
     const data = {};
@@ -74,29 +74,50 @@ function handleFormSubmit(formId, successMessage) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
     submitBtn.disabled = true;
 
-    // Simulate submission (replace with real backend/Formspree/EmailJS)
-    setTimeout(() => {
-      alert(successMessage + '\n\nWe will contact you within 24 hours.\n\nThank you for choosing ARJU ONLINE SERVICES!');
-      form.reset();
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        if (formId === 'applyForm') {
+          const appId = result.appId || 'AOS-2026';
+          alert(`✅ Application Submitted Successfully!\n\nYour Reference ID: ${appId}\n\nOur team will review your application and contact you within 24 hours.\nThank you for choosing ARJU ONLINE SERVICES!`);
+          
+          form.reset();
+
+          const name = data.name || '';
+          const service = data.service || '';
+          const phone = data.phone || '';
+          const msg = `Hello ARJU ONLINE SERVICES,%0A%0AI have submitted an application on your website.%0A*Reference ID:* ${appId}%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Service:* ${service}%0A%0APlease process my request.`;
+          
+          const openWA = confirm('Would you like to notify us immediately via WhatsApp for fastest processing?');
+          if (openWA) {
+            window.open(`https://wa.me/919365225213?text=${msg}`, '_blank');
+          }
+        } else {
+          alert('✅ Message Sent Successfully!\n\nThank you for contacting us. We will get back to you shortly.');
+          form.reset();
+        }
+      } else {
+        alert('⚠️ Submission failed: ' + (result.error || 'Please check your inputs and try again.'));
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('⚠️ Network error. Please check your connection or contact us directly on WhatsApp (+91 9365225213).');
+    } finally {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
-
-      // Optional: Open WhatsApp with pre-filled message
-      const phone = data.phone || '';
-      const name = data.name || '';
-      const service = data.service || '';
-      const msg = `Hello ARJU ONLINE SERVICES,%0A%0AMy name is ${name}.%0APhone: ${phone}%0AService: ${service}%0A%0AI would like to apply for the above service.`;
-      
-      const openWA = confirm('Would you like to also send this via WhatsApp for faster response?');
-      if (openWA) {
-        window.open(`https://wa.me/91XXXXXXXXXX?text=${msg}`, '_blank');
-      }
-    }, 1500);
+    }
   });
 }
 
-handleFormSubmit('contactForm', '✅ Message Sent Successfully!');
-handleFormSubmit('applyForm', '✅ Application Submitted Successfully!');
+handleFormSubmit('contactForm', '/api/contact', '✅ Message Sent Successfully!');
+handleFormSubmit('applyForm', '/api/apply', '✅ Application Submitted Successfully!');
 
 // ============ SCROLL ANIMATIONS ============
 const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
