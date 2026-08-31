@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | ARJU ONLINE SERVICES</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="admin-header">
+    <div class="brand-wrap">
+      <div class="brand-icon">A</div>
+      <div class="brand-info">
+        <h1>ARJU ONLINE SERVICES</h1>
+        <span>Admin & Operations Portal</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="user-badge" id="userBadge">
+        <i class="fas fa-user-circle"></i>
+        <span>Logged in as: <strong id="currentUsername">...</strong></span>
+      </div>
+      <button class="btn-header" id="refreshBtn" title="Refresh Data">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+      <a href="../index.html" target="_blank" class="btn-header" title="View Public Website">
+        <i class="fas fa-external-link-alt"></i> View Site
+      </a>
+      <button class="btn-header btn-logout" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="admin-main">
+
+    <!-- KPI Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <span>Total Applications</span>
+          <h2 id="statTotal">0</h2>
+        </div>
+        <div class="stat-icon total"><i class="fas fa-file-alt"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span>Pending Review</span>
+          <h2 id="statPending">0</h2>
+        </div>
+        <div class="stat-icon pending"><i class="fas fa-clock"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span>In Progress</span>
+          <h2 id="statProgress">0</h2>
+        </div>
+        <div class="stat-icon progress"><i class="fas fa-tasks"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span>Completed</span>
+          <h2 id="statCompleted">0</h2>
+        </div>
+        <div class="stat-icon completed"><i class="fas fa-check-circle"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span>Applied Today</span>
+          <h2 id="statToday">0</h2>
+        </div>
+        <div class="stat-icon today"><i class="fas fa-calendar-day"></i></div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="applications">
+        <i class="fas fa-clipboard-list"></i> Service Applications
+      </button>
+      <button class="tab-btn" data-tab="contacts">
+        <i class="fas fa-envelope"></i> Contact Inquiries (<span id="contactCountBadge">0</span>)
+      </button>
+      <button class="tab-btn" data-tab="logs">
+        <i class="fas fa-history"></i> Activity Logs
+      </button>
+    </div>
+
+    <!-- Applications Tab Content -->
+    <section id="tabContentApplications">
+      <!-- Toolbar & Filters -->
+      <div class="toolbar-card">
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search by name, phone number, or ID..." />
+        </div>
+
+        <div class="filter-group">
+          <select id="statusFilter" class="filter-select">
+            <option value="all">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+
+          <select id="serviceFilter" class="filter-select">
+            <option value="all">All Services</option>
+            <optgroup label="Government ID">
+              <option>PAN Card - New</option>
+              <option>PAN Card - Correction</option>
+              <option>Voter ID - New</option>
+              <option>Voter ID - Correction</option>
+              <option>Aadhaar Update</option>
+              <option>Aadhaar PVC Card</option>
+              <option>Passport</option>
+              <option>Driving License</option>
+              <option>Ration Card</option>
+              <option>Ayushman Bharat Card</option>
+            </optgroup>
+            <optgroup label="Banking">
+              <option>Airtel Payments Bank - Account</option>
+              <option>Micro ATM Service</option>
+              <option>Money Transfer</option>
+            </optgroup>
+            <optgroup label="Bill Payment">
+              <option>LPG Booking</option>
+              <option>Electricity Bill</option>
+              <option>Mobile Recharge</option>
+            </optgroup>
+            <optgroup label="Print & Others">
+              <option>Online Form Filling</option>
+              <option>ITR Filing</option>
+              <option>GST Registration</option>
+              <option>Other</option>
+            </optgroup>
+          </select>
+
+          <button class="btn-action btn-export" id="exportBtn">
+            <i class="fas fa-file-csv"></i> Export to CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Applications Table -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Ref ID</th>
+                <th>Date & Time</th>
+                <th>Applicant Name</th>
+                <th>Contact Phone</th>
+                <th>Service Requested</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="applicationsTableBody">
+              <tr>
+                <td colspan="7" class="empty-state">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <p>Loading application data...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacts Tab Content -->
+    <section id="tabContentContacts" style="display: none;">
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="contactsTableBody">
+              <tr>
+                <td colspan="7" class="empty-state">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <p>Loading contact messages...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logs Tab Content -->
+    <section id="tabContentLogs" style="display: none;">
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Employee</th>
+                <th>Action</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="logsTableBody">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <p>Loading logs...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Application Detail Modal Drawer -->
+  <div class="modal-overlay" id="appModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-id-card-alt text-primary"></i> Application Details</h3>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Application ID</span>
+            <span class="detail-value" id="modalAppId" style="color: var(--accent);">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Submitted On</span>
+            <span class="detail-value" id="modalDate">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Full Name</span>
+            <span class="detail-value" id="modalName">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Father's Name</span>
+            <span class="detail-value" id="modalFather">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Phone Number</span>
+            <span class="detail-value" id="modalPhone">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Alt Phone</span>
+            <span class="detail-value" id="modalAltPhone">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value" id="modalEmail">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Date of Birth</span>
+            <span class="detail-value" id="modalDob">--</span>
+          </div>
+          <div class="detail-item full">
+            <span class="detail-label">Service Requested</span>
+            <span class="detail-value" id="modalService" style="color: var(--primary); font-size: 16px;">--</span>
+          </div>
+          <div class="detail-item full">
+            <span class="detail-label">Address</span>
+            <span class="detail-value" id="modalAddress" style="font-weight: 400; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">--</span>
+          </div>
+          <div class="detail-item full">
+            <span class="detail-label">Customer Note / Message</span>
+            <span class="detail-value" id="modalMessage" style="font-weight: 400; font-style: italic; color: #475569;">--</span>
+          </div>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;" />
+
+        <!-- Employee Management Fields -->
+        <div class="form-group-admin">
+          <label for="modalStatusSelect"><i class="fas fa-tag"></i> Update Application Status</label>
+          <select id="modalStatusSelect" class="admin-select">
+            <option value="Pending">🟡 Pending Review</option>
+            <option value="In Progress">🔵 In Progress / Verification</option>
+            <option value="Completed">🟢 Completed / Delivered</option>
+            <option value="Rejected">🔴 Rejected / Incomplete</option>
+          </select>
+        </div>
+
+        <div class="form-group-admin">
+          <label for="modalNotes"><i class="fas fa-sticky-note"></i> Internal Employee Notes (Staff Only)</label>
+          <textarea id="modalNotes" class="admin-textarea" placeholder="e.g. Called customer, requested Aadhaar copy, documents submitted to portal..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-actions-left">
+          <a id="modalCallBtn" href="#" class="btn-action" style="background: #2563eb;">
+            <i class="fas fa-phone"></i> Call
+          </a>
+          <a id="modalWaBtn" href="#" target="_blank" class="btn-action" style="background: #22c55e;">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <button id="modalPrintBtn" class="btn-action" style="background: #475569;">
+            <i class="fas fa-print"></i> Print
+          </button>
+        </div>
+
+        <div class="modal-actions-right">
+          <button id="modalDeleteBtn" class="btn-action" style="background: #dc2626;">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+          <button id="modalSaveBtn" class="btn-action" style="background: #16a34a;">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

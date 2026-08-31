@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Login | ARJU ONLINE SERVICES Admin</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="login-body">
+
+  <div class="login-card">
+    <div class="login-logo">A</div>
+    <h2 class="login-title">Employee Portal</h2>
+    <p class="login-subtitle">ARJU ONLINE SERVICES &bull; Staff Access</p>
+
+    <div id="loginAlert" class="login-alert"></div>
+
+    <form id="loginForm" class="login-form">
+      <div class="form-group">
+        <label for="username">Employee Username</label>
+        <div class="input-with-icon">
+          <i class="fas fa-user prefix"></i>
+          <input type="text" id="username" name="username" placeholder="e.g. universal or arju" required autocomplete="username" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock prefix"></i>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" />
+          <button type="button" id="togglePassword" class="btn-toggle-pw" aria-label="Toggle password visibility">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="loginBtn" class="btn-login">
+        <i class="fas fa-sign-in-alt"></i> Login to Portal
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>&copy; 2026 ARJU ONLINE SERVICES. Authorized staff only.</p>
+      <p style="margin-top: 6px;"><a href="../index.html" style="color: #64748b; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Main Website</a></p>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginAlert = document.getElementById('loginAlert');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      const icon = togglePassword.querySelector('i');
+      icon.classList.toggle('fa-eye');
+      icon.classList.toggle('fa-eye-slash');
+    });
+
+    // Handle Login Submit
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginAlert.className = 'login-alert';
+      loginAlert.style.display = 'none';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          loginAlert.className = 'login-alert success';
+          loginAlert.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
+          loginAlert.style.display = 'block';
+
+          // Store token in localStorage as fallback
+          if (data.token) {
+            localStorage.setItem('aos_token', data.token);
+            localStorage.setItem('aos_user', JSON.stringify(data.user));
+          }
+
+          setTimeout(() => {
+            window.location.href = '/admin/';
+          }, 800);
+        } else {
+          loginAlert.className = 'login-alert error';
+          loginAlert.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (data.error || 'Invalid credentials');
+          loginAlert.style.display = 'block';
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Portal';
+        }
+      } catch (err) {
+        loginAlert.className = 'login-alert error';
+        loginAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Network error. Please try again.';
+        loginAlert.style.display = 'block';
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Portal';
+      }
+    });
+
+    // Check if already logged in
+    async function checkAuth() {
+      const token = localStorage.getItem('aos_token');
+      try {
+        const res = await fetch('/api/admin/me', {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        if (res.ok) {
+          window.location.href = '/admin/';
+        }
+      } catch(e) {}
+    }
+    checkAuth();
+  </script>
+</body>
+</html>
