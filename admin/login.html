@@ -49,6 +49,10 @@
   </div>
 
   <script>
+    const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.endsWith('.pages.dev') || window.location.hostname.endsWith('.workers.dev'))
+      ? ''
+      : 'https://arjuonlineservices.pages.dev';
+
     const loginForm = document.getElementById('loginForm');
     const loginBtn = document.getElementById('loginBtn');
     const loginAlert = document.getElementById('loginAlert');
@@ -77,7 +81,7 @@
       loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
 
       try {
-        const res = await fetch('/api/admin/login', {
+        const res = await fetch(`${API_BASE}/api/admin/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
@@ -97,7 +101,7 @@
           }
 
           setTimeout(() => {
-            window.location.href = '/admin/';
+            window.location.href = './';
           }, 800);
         } else {
           loginAlert.className = 'login-alert error';
@@ -119,11 +123,11 @@
     async function checkAuth() {
       const token = localStorage.getItem('aos_token');
       try {
-        const res = await fetch('/api/admin/me', {
+        const res = await fetch(`${API_BASE}/api/admin/me`, {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
         if (res.ok) {
-          window.location.href = '/admin/';
+          window.location.href = './';
         }
       } catch(e) {}
     }
