@@ -58,6 +58,10 @@ style.textContent = `@keyframes fadeIn { from { opacity: 0; transform: translate
 document.head.appendChild(style);
 
 // ============ FORM HANDLING ============
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.endsWith('.pages.dev') || window.location.hostname.endsWith('.workers.dev'))
+  ? ''
+  : 'https://arjuonlineservices.pages.dev';
+
 async function handleFormSubmit(formId, endpoint, defaultSuccessMsg) {
   const form = document.getElementById(formId);
   if (!form) return;
@@ -75,7 +79,8 @@ async function handleFormSubmit(formId, endpoint, defaultSuccessMsg) {
     submitBtn.disabled = true;
 
     try {
-      const response = await fetch(endpoint, {
+      const fullUrl = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
+      const response = await fetch(fullUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
