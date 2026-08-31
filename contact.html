@@ -90,14 +90,18 @@
       <div class="contact-form-wrap">
         <h2>Send Us a Message</h2>
         <form class="contact-form" id="contactForm">
+          <!-- Anti-Spam Bot Honeypot (hidden from humans) -->
+          <div style="display:none !important;" aria-hidden="true">
+            <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label>Full Name *</label>
-              <input type="text" name="name" required placeholder="Your name" />
+              <input type="text" name="name" required maxlength="100" placeholder="Your name" />
             </div>
             <div class="form-group">
               <label>Phone *</label>
-              <input type="tel" name="phone" required placeholder="+91 XXXXX XXXXX" />
+              <input type="tel" name="phone" required maxlength="25" placeholder="+91 XXXXX XXXXX" />
             </div>
           </div>
           <div class="form-group">
