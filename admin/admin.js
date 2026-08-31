@@ -1,5 +1,9 @@
 // Admin Panel Logic for ARJU ONLINE SERVICES
 
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.endsWith('.pages.dev') || window.location.hostname.endsWith('.workers.dev'))
+  ? ''
+  : 'https://arjuonlineservices.pages.dev';
+
 let currentApplications = [];
 let activeAppId = null;
 let currentTab = 'applications';
@@ -16,12 +20,12 @@ function getAuthHeaders() {
 // Initial Auth Check
 async function checkAuth() {
   try {
-    const res = await fetch('/api/admin/me', {
+    const res = await fetch(`${API_BASE}/api/admin/me`, {
       headers: getAuthHeaders()
     });
 
     if (!res.ok) {
-      window.location.href = '/admin/login.html';
+      window.location.href = 'login.html';
       return false;
     }
 
@@ -30,11 +34,11 @@ async function checkAuth() {
       document.getElementById('currentUsername').textContent = data.user.displayName || data.user.username;
       return true;
     } else {
-      window.location.href = '/admin/login.html';
+      window.location.href = 'login.html';
       return false;
     }
   } catch (err) {
-    window.location.href = '/admin/login.html';
+    window.location.href = 'login.html';
     return false;
   }
 }
@@ -42,7 +46,7 @@ async function checkAuth() {
 // Load Dashboard Statistics
 async function loadStats() {
   try {
-    const res = await fetch('/api/admin/stats', { headers: getAuthHeaders() });
+    const res = await fetch(`${API_BASE}/api/admin/stats`, { headers: getAuthHeaders() });
     const data = await res.json();
     if (data.success && data.stats) {
       document.getElementById('statTotal').textContent = data.stats.total || 0;
@@ -79,12 +83,12 @@ async function loadApplications() {
   if (service !== 'all') params.append('service', service);
 
   try {
-    const res = await fetch(`/api/admin/applications?${params.toString()}`, {
+    const res = await fetch(`${API_BASE}/api/admin/applications?${params.toString()}`, {
       headers: getAuthHeaders()
     });
 
     if (res.status === 401) {
-      window.location.href = '/admin/login.html';
+      window.location.href = 'login.html';
       return;
     }
 
@@ -130,7 +134,7 @@ function renderApplicationsTable(apps) {
 
     return `
       <tr>
-        <td><strong>${app.app_id}</strong></td>
+        <td><strong>${escapeHtml(app.app_id)}</strong></td>
         <td style="color: #64748b; font-size: 12.5px;">${dateFormatted}</td>
         <td>
           <div style="font-weight: 600;">${escapeHtml(app.name)}</div>
@@ -145,7 +149,7 @@ function renderApplicationsTable(apps) {
         <td><span class="badge ${statusBadgeClass}">${escapeHtml(app.status || 'Pending')}</span></td>
         <td>
           <div class="action-buttons">
-            <button class="btn-icon" title="View & Edit" onclick="openAppModal('${app.app_id}')">
+            <button class="btn-icon" title="View & Edit" onclick="openAppModal('${escapeHtml(app.app_id)}')">
               <i class="fas fa-eye"></i>
             </button>
             <a href="https://wa.me/91${cleanPhone}?text=${waMsg}" target="_blank" class="btn-icon wa" title="Chat on WhatsApp">
@@ -154,7 +158,7 @@ function renderApplicationsTable(apps) {
             <a href="tel:${escapeHtml(app.phone)}" class="btn-icon call" title="Call Customer">
               <i class="fas fa-phone"></i>
             </a>
-            <button class="btn-icon del" title="Delete" onclick="deleteApp('${app.app_id}')">
+            <button class="btn-icon del" title="Delete" onclick="deleteApp('${escapeHtml(app.app_id)}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
@@ -213,7 +217,7 @@ document.getElementById('modalSaveBtn').addEventListener('click', async () => {
   saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
   try {
-    const res = await fetch(`/api/admin/applications/${activeAppId}`, {
+    const res = await fetch(`${API_BASE}/api/admin/applications/${activeAppId}`, {
       method: 'PATCH',
       headers: getAuthHeaders(),
       body: JSON.stringify({ status, notes })
@@ -303,7 +307,7 @@ window.deleteApp = async function(appId) {
   }
 
   try {
-    const res = await fetch(`/api/admin/applications/${appId}`, {
+    const res = await fetch(`${API_BASE}/api/admin/applications/${appId}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     });
@@ -331,7 +335,7 @@ document.getElementById('modalDeleteBtn').addEventListener('click', () => {
 // Export to CSV
 document.getElementById('exportBtn').addEventListener('click', async () => {
   try {
-    const res = await fetch('/api/admin/export', { headers: getAuthHeaders() });
+    const res = await fetch(`${API_BASE}/api/admin/export`, { headers: getAuthHeaders() });
     if (!res.ok) throw new Error('Export failed');
     
     const blob = await res.blob();
@@ -371,7 +375,7 @@ async function loadContacts() {
   tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading messages...</p></td></tr>`;
 
   try {
-    const res = await fetch('/api/admin/contacts', { headers: getAuthHeaders() });
+    const res = await fetch(`${API_BASE}/api/admin/contacts`, { headers: getAuthHeaders() });
     const data = await res.json();
     if (data.success && data.contacts) {
       if (data.contacts.length === 0) {
@@ -406,7 +410,7 @@ async function loadLogs() {
   tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading activity logs...</p></td></tr>`;
 
   try {
-    const res = await fetch('/api/admin/logs', { headers: getAuthHeaders() });
+    const res = await fetch(`${API_BASE}/api/admin/logs`, { headers: getAuthHeaders() });
     const data = await res.json();
     if (data.success && data.logs) {
       if (data.logs.length === 0) {
@@ -431,11 +435,11 @@ async function loadLogs() {
 // Logout Handler
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   try {
-    await fetch('/api/admin/logout', { method: 'POST', headers: getAuthHeaders() });
+    await fetch(`${API_BASE}/api/admin/logout`, { method: 'POST', headers: getAuthHeaders() });
   } catch (e) {}
   localStorage.removeItem('aos_token');
   localStorage.removeItem('aos_user');
-  window.location.href = '/admin/login.html';
+  window.location.href = 'login.html';
 });
 
 // Refresh Button
@@ -463,7 +467,7 @@ function debounce(func, wait) {
 // Utility: HTML Escape
 function escapeHtml(str) {
   if (!str) return '';
-  return str.replace(/[&<>"']/g, function(m) {
+  return String(str).replace(/[&<>"']/g, function(m) {
     switch (m) {
       case '&': return '&amp;';
       case '<': return '&lt;';
